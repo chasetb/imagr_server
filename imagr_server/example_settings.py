@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'report',
-    'dashboard'
+    'dashboard',
+    'storages'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,8 +81,12 @@ WSGI_APPLICATION = 'imagr_server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'imagr_server.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ''
     }
 }
 
@@ -103,8 +108,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
@@ -122,3 +125,23 @@ SLACK_NOTIFY=True
 SLACK_WEBHOOK_URL='https://slackwebhook'
 SLACK_CHANNEL='macops'
 SLACK_BOT_NAME='imagr'
+
+# Amazon Web Services Settings
+AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'Cache-Control': 'max-age=94608000',
+}
+
+AWS_STORAGE_BUCKET_NAME = 'BUCKET_NAME'
+AWS_ACCESS_KEY_ID = 'xxxxxxxxxxxxxx'
+AWS_SECRET_ACCESS_KEY = 'yyyyyyyyyyyyyyyyyyyyyyyyyyy'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# This is used by the `static` template tag from `static`, if you're using that. Or if anything else
+# refers directly to STATIC_URL. So it's safest to always set it.
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
+# Tell the staticfiles app to use S3Boto storage when writing the collected static files (when
+# you run `collectstatic`).
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
