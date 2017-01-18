@@ -25,7 +25,7 @@ SECRET_KEY = '#6*8&7d70yd2$&&j9&z6mnlk_dw4=%a)9q86%o+few3!5eymgm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -135,6 +135,11 @@ AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
 AWS_STORAGE_BUCKET_NAME = 'BUCKET_NAME'
 AWS_ACCESS_KEY_ID = 'xxxxxxxxxxxxxx'
 AWS_SECRET_ACCESS_KEY = 'yyyyyyyyyyyyyyyyyyyyyyyyyyy'
+
+# Tell django-storages that when coming up with the URL for an item in S3 storage, keep
+# it simple - just use this domain plus the path. (If this isn't set, things get complicated).
+# This controls how the `static` template tag from `staticfiles` gets expanded, if you're using it.
+# We also use it in the next setting.
 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 

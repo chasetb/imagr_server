@@ -18,7 +18,7 @@ def index(request):
             computer = Computer.objects.get(serial_number=serial)
         except Computer.DoesNotExist:
             computer = Computer(serial_number=serial)
-        computer.current_status = status    
+        computer.current_status = status
         computer.save()
 
         # create a new report object
@@ -33,7 +33,11 @@ def index(request):
 
 
 def notify_slack_channel(serial, message, status):
-    text = "%s %s %s" % (serial, status, message)
+    if "error" not in status:
+        color_code = 'good'
+    else:
+        color_code = 'danger'
+
     url = settings.SLACK_WEBHOOK_URL
     channel = settings.SLACK_CHANNEL
     user = settings.SLACK_BOT_NAME
@@ -42,7 +46,31 @@ def notify_slack_channel(serial, message, status):
     payload = json.dumps({
         'channel' : channel,
         'username' : user,
-        'text' : text,
+        'attachments': [
+            {
+                'fields': [
+                    {
+                        'title': "Message",
+                        'value': "%s" % (message),
+                        'short': 'false'
+
+                    },
+                    {
+                        'title': "Serial",
+                        'value': "%s" % (serial),
+                        'short': 'true'
+
+                    },
+                    {
+                        'title': "Status",
+                        'value': "%s" % (status),
+                        'short': 'true'
+
+                    }
+                ],
+                'color': color_code
+            }
+        ],
         'icon_emoji' : emoji,
         })
     request = requests.post(url, headers=headers, data=payload)
