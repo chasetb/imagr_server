@@ -44,9 +44,9 @@
                         <td>{{report.message}}</td>
                         {% if report.status == 'success' %}
                         <td>Complete</td>
-                        {% elif report.status == 'success'%}
+                        {% elif report.status == 'error' %}
                         <td>Error</td>
-                        {% elif report.status == 'in_progress'%}
+                        {% elif report.status == 'in_progress' %}
                         <td>In Progress</td>
                         {% endif %}
                     {% endfor %}
