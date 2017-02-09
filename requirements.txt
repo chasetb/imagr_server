@@ -3,6 +3,5 @@ django-bootstrap3==5.4.0
 wsgiref==0.1.2
 requests
 django-storages
-boto
 psycopg2
 zappa
