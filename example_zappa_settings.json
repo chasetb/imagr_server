@@ -1,0 +1,19 @@
+{
+    "dev": { // The name of your stage
+        "aws_region": "aws-region-name", // optional, uses region set in profile or environment variables if not set here,
+        "django_settings": "imagr_server.settings", // The python path to your Django settings.
+        "domain": "imagr.yourdomain.com", // Required if you're using a domain
+        "lambda_description": "Imagr Serverless Server", // However you want to describe your project for the AWS console. Default "Zappa Deployment".
+        "project_name": "ImagrServer",
+        "s3_bucket": "yourbucket", // The name of your S3 bucket
+    },
+
+    // "prod": { // The name of your stage
+    //     "aws_region": "aws-region-name", // optional, uses region set in profile or environment variables if not set here,
+    //     "django_settings": "imagr_server.settings", // The python path to your Django settings.
+    //     "domain": "imagr.yourdomain.com", // Required if you're using a domain
+    //     "lambda_description": "Imagr Serverless Server", // However you want to describe your project for the AWS console. Default "Zappa Deployment".
+    //     "project_name": "ImagrServer",
+    //     "s3_bucket": "yourbucket", // The name of your S3 bucket
+    // }
+}
